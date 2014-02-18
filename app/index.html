@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>My AngularJS App</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/app.css"/>
+  <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+</head>
+<body>
+  <div class="background"></div>
+
+  <div id="layout" class="pure-g content">
+      <div id="nav" class="pure-u">
+          <a href="#" class="nav-menu-button">Menu</a>
+
+          <div class="nav-inner">
+              <!-- <button class="primary-button pure-button">Compose</button> -->
+              <div class="pure-menu">
+                  <a href="#/home"><i class="icon-dna icon-big"></i></a>
+              </div>
+
+              <div class="pure-menu pure-menu-open">
+                  <ul>
+                      <li class="pure-menu-heading">Apps</li>
+                      <li><a href="#/view1">Form APP <span class="email-count">(2)</span></a></li>
+                      <li><a href="#/view2">Graphic</a></li>
+                      <li class="pure-menu-heading">Labels</li>
+                      <li><a href="#"><span class="email-label-personal"></span>Junior UI</a></li>
+                      <li><a href="#"><span class="email-label-work"></span>SSr UI</a></li>
+                      <li><a href="#"><span class="email-label-travel"></span>Senior UI</a></li>
+                      <li><hr/></li>
+                      <li class="icons"><a href="#"><i class="icon-code"></i></a><a href="#"><i class="icon-htmlfive"></i></a><a href="#"><i class="icon-cssthree"></i></a></li>
+                      <li></li>
+                      <li></li>
+
+                      <li class="icons"><a href="#"><i class="icon-circlegithub"></i></a><a href="#"><i class="icon-circletwitter"></i></a><a href="#"><i class="icon-chrome"></i></a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+
+      <div id="list" class="pure-g" ng-view></div>
+
+  </div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-route.js"></script>
+  <script src="lib/d3/d3.v3.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/directives.js"></script>
+</body>
+</html>

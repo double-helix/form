@@ -1,0 +1,273 @@
+/* app css stylesheet */
+
+*{
+  font-family: 'quicksandregular', sans-serif;
+}
+
+h1{
+  font-family: 'quicksandbold', sans-serif;
+}
+h2{
+  font-family: 'quicksandbold', sans-serif;
+}
+a:visited{
+  color: #f3f3f3;
+}
+a:hover{
+}
+hr{
+  border:2px solid white;
+}
+span{
+  font-family: 'quicksandregular', sans-serif;
+}
+.l-box {
+  background: rgba(153, 153, 153, .3);
+  color: white;
+}
+.l-box.l-padding{
+  padding: 2em;
+  box-sizing: border-box;
+}
+.l-box.l-margin{
+  margin: 2em;
+}
+
+.background{
+  background: url(../img/bg.jpg) center center fixed;
+  background-size: cover;
+  position: fixed;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+
+  -webkit-filter: blur(12px);
+  filter: blur(12px);
+  transition: -webkit-filter 1000ms;
+}
+.background:hover{
+  -webkit-filter: blur(0px);
+}
+
+.content{
+  position: relative;
+  z-index: 9999;
+  text-align: center;
+}
+
+.menu {
+  list-style: none;
+  border-bottom: 0.2em solid rgba(150, 150, 150, .3);
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+.icon-big{
+  font-size: 65px;
+}
+
+
+
+
+
+/* Make the navigation 100% width on phones */
+#nav {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    background: rgb(37, 42, 58);
+    text-align: center;
+}
+/* Show the "Menu" button on phones */
+#nav .nav-menu-button {
+    display: block;
+    top: 0.5em;
+    right: 0.5em;
+    position: absolute;
+}
+
+/* When "Menu" is clicked, the navbar should be 80% height */
+#nav.active {
+    height: 80%;
+}
+/* Don't show the navigation items... */
+.nav-inner {
+    display: none;
+}
+
+/* ...until the "Menu" button is clicked */
+#nav.active .nav-inner {
+    display: block;
+    padding: 2em 0;
+}
+
+
+/*
+ * -- NAV BAR STYLES --
+ * Styling the default .pure-menu to look a little more unique.
+ */
+#nav .pure-menu.pure-menu-open {
+    background: transparent;
+    border: none;
+    text-align: left;
+}
+    #nav .pure-menu a:hover,
+    #nav .pure-menu a:focus {
+        background: rgb(55, 60, 90);
+    }
+    #nav .pure-menu a {
+        color: #fff;
+        margin-left: 0.5em;
+    }
+    #nav .pure-menu-heading {
+        border-bottom: none;
+        font-size:110%;
+        color: rgb(75, 113, 151);
+    }
+      #nav .pure-menu .icons i{
+        color:white;
+        text-align: center;
+        font-size: 1.225em;
+      }
+      #nav .pure-menu .icons a{
+        float: left;
+        margin-left: 0.65em;
+        padding: 2px 8px;
+        text-align: center;
+      }
+    #nav .pure-menu hr{
+      margin-top: 100%;
+      margin-bottom: 3em;
+      border: 1px solid;
+    }
+
+
+/*
+ * -- EMAIL STYLES --
+ * Styles relevant to the email messages, labels, counts, and more.
+ */
+.email-count {
+    color: rgb(75, 113, 151);
+}
+
+.email-label-personal,
+.email-label-work,
+.email-label-travel {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 0.5em;
+    border-radius: 3px;
+}
+.email-label-personal {
+    background: #ffc94c;
+}
+.email-label-work {
+    background: #41ccb4;
+}
+.email-label-travel {
+    background: #40c365;
+}
+
+
+/*
+ * -- TABLET (AND UP) MEDIA QUERIES --
+ * On tablets and other medium-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+@media (min-width: 40em) {
+
+    /* Move the layout over so we can fit the nav + list in on the left */
+    #layout {
+        padding-left:500px; /* "left col (nav + list)" width */
+        position: relative;
+    }
+
+    /* These are position:fixed; elements that will be in the left 500px of the screen */
+    #nav, #list {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+    }
+    #nav {
+        margin-left:-500px; /* "left col (nav + list)" width */
+        width:150px;
+        height: 100%;
+    }
+
+    /* Show the menu items on the larger screen */
+    .nav-inner {
+        display: block;
+        padding: 2em 0;
+    }
+
+    /* Hide the "Menu" button on larger screens */
+    #nav .nav-menu-button {
+        display: none;
+    }
+
+    #list {
+        margin-left: -350px;
+        width: 100%;
+        height: 33%;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #main {
+        position: fixed;
+        top: 33%;
+        right: 0;
+        bottom: 0;
+        left: 150px;
+        overflow: auto;
+        width: auto; /* so that it's not 100% */
+    }
+
+}
+
+/*
+ * -- DESKTOP (AND UP) MEDIA QUERIES --
+ * On desktops and other large-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+@media (min-width: 60em) {
+
+    /* This will take up the entire height, and be a little thinner */
+    #list {
+        margin-left: -350px;
+        width:90%;
+        height: 100%;
+
+    }
+
+    /* This will now take up it's own column, so don't need position: fixed; */
+    #main {
+        position: static;
+        margin: 0;
+        padding: 0;
+    }
+}
+
