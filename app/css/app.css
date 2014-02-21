@@ -3,6 +3,9 @@
 *{
   font-family: 'quicksandregular', sans-serif;
 }
+body{
+  overflow: hidden;
+}
 
 h1{
   font-family: 'quicksandbold', sans-serif;
@@ -24,13 +27,14 @@ span{
 .l-box {
   background: rgba(153, 153, 153, .3);
   color: white;
+  transition: width 10s;
 }
 .l-box.l-padding{
   padding: 2em;
   box-sizing: border-box;
 }
 .l-box.l-margin{
-  margin: 2em;
+  margin: 1.5em;
 }
 
 .background{
@@ -84,11 +88,8 @@ span{
   padding: 0;
 }
 
-.icon-big{
-  font-size: 65px;
-}
-
-
+/*icons*/
+.icon-big{font-size: 65px;}
 
 
 
@@ -147,7 +148,7 @@ span{
         color: rgb(75, 113, 151);
     }
       #nav .pure-menu .icons i{
-        color:white;
+        color:#556270;
         text-align: center;
         font-size: 1.225em;
       }

@@ -3,7 +3,10 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-  controller('MyCtrl1', [function() {
+  controller('HomeCtrl', function($scope) {
+    //angular.element('.pure-g')//.addClass('l-box');
+  })
+  .controller('MyCtrl1', [function() {
 
   }])
   .controller('MyCtrl2', [function() {
