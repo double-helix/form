@@ -1,17 +1,21 @@
 /* app css stylesheet */
 
 *{
-  font-family: 'quicksandregular', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
 }
 body{
   overflow: hidden;
 }
 
 h1{
-  font-family: 'quicksandbold', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
 }
 h2{
-  font-family: 'quicksandbold', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
 }
 a:visited{
   color: #f3f3f3;
@@ -22,7 +26,8 @@ hr{
   border:2px solid white;
 }
 span{
-  font-family: 'quicksandregular', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
 }
 .l-box {
   background: rgba(153, 153, 153, .3);
@@ -38,20 +43,20 @@ span{
 }
 
 .background{
-  background: url(../img/bg.jpg) center center fixed;
+  background: url(../img/bg3.jpg) center center fixed;
   background-size: cover;
   position: fixed;
   z-index: 1;
   height: 100%;
   width: 100%;
 
-  -webkit-filter: blur(12px);
+  /*-webkit-filter: blur(12px);
   filter: blur(12px);
-  transition: -webkit-filter 1000ms;
+  transition: -webkit-filter 1000ms;*/
 }
-.background:hover{
+/*.background:hover{
   -webkit-filter: blur(0px);
-}
+}*/
 
 .content{
   position: relative;
@@ -89,8 +94,8 @@ span{
 }
 
 /*icons*/
-.icon-big{font-size: 65px;}
-
+.icon-big{font-size: 65px; transition: -webkit-transform 1s, color 1s; display:block;}
+.icon-big:hover{ /*-webkit-transform: rotateZ(150deg);*/ color: #484A49; }
 
 
 /* Make the navigation 100% width on phones */
@@ -98,7 +103,8 @@ span{
     width: 100%;
     height: 40px;
     position: relative;
-    background: rgb(37, 42, 58);
+    /*background: rgb(37, 42, 58);*/
+    background: url(../img/bg2.png) no-repeat center center;
     text-align: center;
 }
 /* Show the "Menu" button on phones */
@@ -133,24 +139,30 @@ span{
     background: transparent;
     border: none;
     text-align: left;
+    margin-top: 10em;
 }
     #nav .pure-menu a:hover,
     #nav .pure-menu a:focus {
-        background: rgb(55, 60, 90);
+        background: #484848;
     }
     #nav .pure-menu a {
         color: #fff;
         margin-left: 0.5em;
+        transition: background 0.5s ease;
     }
     #nav .pure-menu-heading {
         border-bottom: none;
         font-size:110%;
-        color: rgb(75, 113, 151);
+        color: #53636B;
+        font-weight: 400;
     }
       #nav .pure-menu .icons i{
-        color:#556270;
+        color:#878487;
         text-align: center;
         font-size: 1.225em;
+      }
+      #nav .pure-menu .icons i:hover{
+        color: orange;
       }
       #nav .pure-menu .icons a{
         float: left;
@@ -171,6 +183,7 @@ span{
  */
 .email-count {
     color: rgb(75, 113, 151);
+    font-weight: 700;
 }
 
 .email-label-personal,
@@ -259,7 +272,7 @@ span{
     /* This will take up the entire height, and be a little thinner */
     #list {
         margin-left: -350px;
-        width:90%;
+        /*width:95%;*/
         height: 100%;
 
     }

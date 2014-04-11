@@ -2,7 +2,9 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
+angular.module('doubleHelixApp.controllers', [
+    //'myApp.controllers.dataviewController'
+  ]).
   controller('HomeCtrl', function($scope) {
     //angular.element('.pure-g')//.addClass('l-box');
   })

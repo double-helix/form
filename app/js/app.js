@@ -2,13 +2,13 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('doubleHelixApp', [
   'ngRoute',
   'ngProgress',
-  'myApp.filters',
-  'myApp.services',
-  'myApp.directives',
-  'myApp.controllers'
+  'doubleHelixApp.filters',
+  'doubleHelixApp.services',
+  'doubleHelixApp.directives',
+  'doubleHelixApp.controllers'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: 'HomeCtrl'});
