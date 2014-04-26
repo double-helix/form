@@ -14,7 +14,8 @@ angular.module('doubleHelixApp', [
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home',  {templateUrl: 'partials/home.html',     controller: 'HomeCtrl'});
   $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
-  $routeProvider.when('/view2', {templateUrl: 'partials/graphic.html',  controller: 'WheelCtrl'});
+  $routeProvider.when('/upload', {templateUrl: 'partials/upload.html', controller: 'UploadCtrl'});
+  $routeProvider.when('/graph', {templateUrl: 'partials/graphic.html',  controller: 'WheelCtrl'});
 
   $routeProvider.otherwise({redirectTo: '/home'});
 }])

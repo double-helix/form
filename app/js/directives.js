@@ -4,11 +4,13 @@
 
 
 angular.module('doubleHelixApp.directives', [])
-  .directive('appVersion', [function(version) {
+  .directive('appVersion', ['version','$rootScope',function(version, $rootScope) {
+    $rootScope.version = version;
     return {
-      template: 'Current version is v1.0'
+      template: 'Current version is v{{ version }}'
     };
   }])
+
   .directive('d3Wheel', ['d3Service', '$window', '$timeout', function(d3Service, $window, $timeout) {
 
     function link(scope, ele, attrs) {
@@ -45,52 +47,6 @@ angular.module('doubleHelixApp.directives', [])
             if (renderTimeout) clearTimeout(renderTimeout);
 
             renderTimeout = $timeout(function() {
-                                    // var width = d3.select(ele[0])[0][0].offsetWidth - margin,
-                                    //     height = scope.$parent.data.length * (barHeight + barPadding),
-                                    //     color = d3.scale.category20(),
-                                    //     xScale = d3.scale.linear()
-                                    //       .domain([0, d3.max(data, function(d) {
-                                    //         return d.score;
-                                    //       })])
-                                    //       .range([0, width]);
-
-                                    // svg.attr('height', height);
-
-                                    // svg.selectAll('rect')
-                                    //   .data(data)
-                                    //   .enter()
-                                    //     .append('rect')
-                                    //     .on('click', function(d,i) {
-                                    //       return scope.onClick({item: d});
-                                    //     })
-                                    //     .attr('height', barHeight)
-                                    //     .attr('width', 140)
-                                    //     .attr('x', Math.round(margin/2))
-                                    //     .attr('y', function(d,i) {
-                                    //       return i * (barHeight + barPadding);
-                                    //     })
-                                    //     .attr('fill', function(d) {
-                                    //       return color(d.score);
-                                    //     })
-                                    //     .transition()
-                                    //       .duration(1000)
-                                    //       .attr('width', function(d) {
-                                    //         return xScale(d.score);
-                                    //       });
-                                    // svg.selectAll('text')
-                                    //   .data(data)
-                                    //   .enter()
-                                    //     .append('text')
-                                    //     .attr('fill', '#fff')
-                                    //     .attr('y', function(d,i) {
-                                    //       return i * (barHeight + barPadding) + 15;
-                                    //     })
-                                    //     .attr('x', 15)
-                                    //     .text(function(d) {
-                                    //       return d.name + " (scored: " + d.score + ")";
-                                    //     });
-
-
 
               var colors = {};
 
@@ -137,7 +93,7 @@ angular.module('doubleHelixApp.directives', [])
                   s: 3,
                   t: 10
               };
-console.log(ele[0]);
+
               // Total size of all segments; we set this later, after loading the data.
               var totalSize = 0;
               var vis = svg
@@ -454,4 +410,198 @@ console.log(ele[0]);
       },
       link: link
     };
-  }]);
+  }])
+
+  .directive('rawTable', ['$q', 'd3Service', 'rawService', 'dataService', function ($q, d3Service, rawService, dataService) {
+
+    function link(scope, ele, attrs){
+      $q.all([d3Service,rawService])
+        .then(function(result) {
+
+        var d3 = result[0].d3(),
+            raw = result[1].raw();
+
+        var sortBy,
+            descending = true;
+
+        function update(){
+          d3.select(ele[0]).selectAll("*").remove();
+
+          if(!scope.data || !scope.data.length) {
+            d3.select(ele[0]).append("span").text("Please, review your data")
+            return;
+          }
+
+          var table = d3.select(ele[0])
+            .append('table')
+            .attr("class","table table-striped table-condensed")
+
+          if (!sortBy) sortBy = scope.metadata[0].key;
+
+          var headers = table.append("thead")
+            .append("tr")
+            .selectAll("th")
+            .data(scope.metadata)
+            .enter().append("th")
+              .text( function(d){ return d.key; } )
+              .on('click', function (d){
+                descending = sortBy == d.key ? !descending : descending;
+                sortBy = d.key;
+                update();
+              })
+
+          headers.append("i")
+            .attr("class", function (d){ return descending ? "fa fa-sort-desc pull-right" : "fa fa-sort-asc pull-right"})
+            .style("opacity", function (d){ return d.key == sortBy ? 1 : 0; })
+
+          var rows = table.append("tbody")
+            .selectAll("tr")
+            .data(scope.data.sort(sort))
+            .enter().append("tr");
+
+          var cells = rows.selectAll("td")
+            .data(d3.values)
+            .enter().append("td");
+            cells.text(String);
+
+        }
+
+        function sort(a,b) {
+          if (raw.isNumber(a[sortBy]) && raw.isNumber(b[sortBy])) return descending ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy];
+          return descending ? a[sortBy] < b[sortBy] ? -1 : a[sortBy] > b[sortBy] ? 1 : 0 : a[sortBy] < b[sortBy] ? 1 : a[sortBy] > b[sortBy] ? -1 : 0;
+        }
+
+
+        scope.raw = raw;
+        scope.data = [];
+        scope.metadata = [];
+        scope.error = false;
+
+        scope.parse = function(text){
+
+          if (scope.model) scope.model.clear();
+
+          scope.data = [];
+          scope.metadata = [];
+          scope.error = false;
+          scope.$apply();
+
+          try {
+            var parser = raw.parser();
+            scope.data = parser(text);
+            scope.metadata = parser.metadata(text);
+            scope.error = false;
+          } catch(e){
+            scope.data = [];
+            scope.metadata = [];
+            scope.error = e.name == "ParseError" ? +e.message : false;
+          }
+          if (!scope.data.length && scope.model) scope.model.clear();
+        }
+
+        scope.delayParse = dataService.debounce(scope.parse, 500, false);
+
+        scope.$watch("text", function (text){
+          scope.delayParse(text);
+        });
+
+        scope.charts = raw.charts.values().sort(function (a,b){ return a.title() < b.title() ? -1 : a.title() > b.title() ? 1 : 0; });
+        scope.chart = scope.charts[0];
+        scope.model = scope.chart ? scope.chart.model() : null;
+
+        scope.$watch('error', function (error){
+          if (!$('.CodeMirror')[0]) return;
+          var cm = $('.CodeMirror')[0].CodeMirror;
+          if (!error) {
+            cm.removeLineClass(scope.lastError,'wrap','line-error');
+            return;
+          }
+          cm.addLineClass(error, 'wrap', 'line-error');
+          cm.scrollIntoView(error);
+          scope.lastError = error;
+
+        })
+
+        $('body').mousedown(function (e,ui){
+          if ($(e.target).hasClass("dimension-info-toggle")) return;
+          $('.dimensions-wrapper').each(function (e){
+            angular.element(this).scope().open = false;
+            angular.element(this).scope().$apply();
+          })
+        })
+
+
+        scope.$watch('dataView', function(){
+          if (!$('.CodeMirror')[0]) return;
+          var cm = $('.CodeMirror')[0].CodeMirror;
+        })
+
+        scope.selectChart = function(chart){
+          if (chart == scope.chart) return;
+          scope.model.clear();
+          scope.chart = chart;
+          scope.model = scope.chart.model();
+        }
+
+        scope.isEmpty = function(){
+          return scope.model && !scope.model.dimensions().values().filter(function (d){ return d.value.length } ).length;
+        }
+
+        function refreshScroll(){
+          $('[data-spy="scroll"]').each(function () {
+            $(this).scrollspy('refresh');
+          });
+        }
+
+        $(window).scroll(function(){
+
+          // check for mobile
+          if ($(window).width() < 760 || $('#mapping').height() < 300) return;
+          var scrollTop = $(window).scrollTop() + 0,
+              mappingTop = $('#mapping').offset().top+10,
+              mappingHeight = $('#mapping').height(),
+              isBetween = scrollTop > mappingTop+10 && scrollTop <= mappingTop + mappingHeight - $(".sticky").height()-20,
+              isOver = scrollTop > mappingTop + mappingHeight - $(".sticky").height()-20,
+              mappingWidth = mappingWidth ? mappingWidth : $('.col-lg-9').width();
+
+          if (mappingHeight-$('.dimensions-list').height() > 60) return;
+          if (isBetween) {
+            $(".sticky")
+              .css("position","fixed")
+              .css("width", mappingWidth+"px")
+              .css("top","20px")
+          }
+
+         if(isOver) {
+            $(".sticky")
+              .css("position","fixed")
+              .css("width", mappingWidth+"px")
+              .css("top", (mappingHeight - $(".sticky").height() + 0 - scrollTop+mappingTop) + "px");
+              return;
+          }
+
+          if (isBetween) return;
+
+          $(".sticky")
+            .css("position","relative")
+            .css("top","")
+            .css("width", "");
+
+        })
+
+        $(document).ready(refreshScroll);
+
+        scope.$watch('data', update);
+        scope.$watch('metadata', function(){
+          sortBy = null;
+          update();
+        });
+
+      });
+    };
+
+    return {
+      restrict: 'A',
+      link: link
+    };
+  }])

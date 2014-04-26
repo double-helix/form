@@ -1,0 +1,34 @@
+<div class="pure-u-1" ng-controller="UploadCtrl">
+
+  <!-- view type selector -->
+  <div class="pure-u-1">
+    <span class="list-type pull-right">
+        <i class="type fa fa-align-left breath-left"
+        data-toggle="tooltip"
+        data-title="Text"
+        ng-click="dataView='text'" ng-class="{selected:dataView!='table'}"></i>
+        <i class="type fa fa-table breath-left"
+        data-toggle="tooltip"
+        data-title="Table"
+        ng-click="dataView='table'" ng-class="{selected:dataView=='table'}"></i>
+      </span>
+  </div>
+
+  <!-- raw view -->
+  <div class="pure-u-1">
+    <div data-ng-show="dataView != 'table'">
+      <textarea ui-codemirror="{
+        lineNumbers : true,
+        lineWrapping : true,
+        placeholder : 'Paste your text or drop a file here. No data on hand? Try one of our sample datasets!'
+      }"
+      ng-model="text">
+      </textarea>
+    </div>
+  </div>
+
+  <!-- data-table view -->
+  <div class="pure-u-1" ng-controller="UploadCtrl">
+    <div raw-table class="data-table"  data-ng-show="dataView == 'table'"></div>
+  </div>
+</div>

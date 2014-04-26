@@ -11,6 +11,27 @@ angular.module('doubleHelixApp.controllers', [
   .controller('MyCtrl1', [function() {
 
   }])
+  .controller('UploadCtrl', ['$scope','dataService', function($scope, dataService) {
+    $scope.samples = [
+      { title : 'Cars (multivariate)', url : 'data/multivariate.csv' },
+      { title : 'Movies (dispersions)', url : 'data/dispersions.csv' },
+      { title : 'Music (flows)', url : 'data/flows.csv' },
+      { title : 'Cocktails (correlations)', url : 'data/correlations.csv' }
+    ]
+
+    $scope.$watch('sample', function (sample){
+      if (!sample) return;
+      dataService.loadSample(sample.url).then(
+        function(data){
+          $scope.text = data;
+        },
+        function(error){
+          $scope.error = error;
+        }
+      );
+    });
+
+  }])
   .controller('WheelCtrl', ['$scope', function($scope) {
     $scope.data = {
         'children': [{
